@@ -1,0 +1,9 @@
+name: ${COMPOSE_PROJECT_NAME:-auth-service}
+
+services:
+
+volumes:
+
+networks:
+  iot-hub-nw:
+    external: true
