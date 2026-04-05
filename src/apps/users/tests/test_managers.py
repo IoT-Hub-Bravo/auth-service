@@ -1,12 +1,11 @@
 import pytest
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 
 
 @pytest.mark.django_db
 class TestCreateUser:
     def test_creates_user_with_correct_fields(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         user = User.objects.create_user(
             username="testuser",
             email="test@example.com",
@@ -20,6 +19,8 @@ class TestCreateUser:
         assert user.is_active is True
 
     def test_password_is_hashed(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         user = User.objects.create_user(
             username="testuser2",
             email="test2@example.com",
@@ -29,6 +30,8 @@ class TestCreateUser:
         assert user.password != "securepass123"
 
     def test_normalises_email(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         user = User.objects.create_user(
             username="testuser3",
             email="test@EXAMPLE.COM",
@@ -37,10 +40,14 @@ class TestCreateUser:
         assert user.email == "test@example.com"
 
     def test_raises_if_username_missing(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         with pytest.raises(ValueError, match="Username"):
             User.objects.create_user(username="", email="a@b.com", password="pass")
 
     def test_raises_if_email_missing(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         with pytest.raises(ValueError, match="Email"):
             User.objects.create_user(username="u", email="", password="pass")
 
@@ -48,6 +55,8 @@ class TestCreateUser:
 @pytest.mark.django_db
 class TestCreateSuperuser:
     def test_creates_superuser_with_correct_flags(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         user = User.objects.create_superuser(
             username="admin",
             email="admin@example.com",
@@ -58,6 +67,8 @@ class TestCreateSuperuser:
         assert user.role == "admin"
 
     def test_raises_if_is_staff_false(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         with pytest.raises(ValueError, match="is_staff"):
             User.objects.create_superuser(
                 username="bad",
@@ -67,6 +78,8 @@ class TestCreateSuperuser:
             )
 
     def test_raises_if_is_superuser_false(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         with pytest.raises(ValueError, match="is_superuser"):
             User.objects.create_superuser(
                 username="bad2",

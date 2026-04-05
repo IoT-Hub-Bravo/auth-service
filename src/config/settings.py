@@ -89,6 +89,21 @@ else:
 
 AUTH_USER_MODEL = "users.User"
 
+# ─── JWT (RS256) ──────────────────────────────────────────────────────────────
+# During BUILD_TIME / tests (IS_BUILD=True) the key files don't exist on disk;
+# set to None so the import doesn't crash.  The TokenService and JWKS view both
+# guard against None at call time.
+
+if IS_BUILD:
+    JWT_PRIVATE_KEY = None
+    JWT_PUBLIC_KEY = None
+else:
+    JWT_PRIVATE_KEY = open(config("JWT_PRIVATE_KEY_PATH")).read()
+    JWT_PUBLIC_KEY = open(config("JWT_PUBLIC_KEY_PATH")).read()
+
+JWT_ACCESS_TOKEN_TTL = config("JWT_ACCESS_TOKEN_TTL_SECONDS", cast=int, default=3600)
+JWT_KEY_ID = config("JWT_KEY_ID", default="auth-service-key-1")
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},

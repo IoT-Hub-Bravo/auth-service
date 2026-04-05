@@ -16,10 +16,11 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY src/ .
-ENV BUILD_TIME=1 \
+COPY pytest.ini .
+RUN BUILD_TIME=1 \
     DJANGO_SETTINGS_MODULE=config.settings \
-    SECRET_KEY=unsafe-build-time-secret-do-not-use-in-production
-RUN python manage.py collectstatic --noinput
+    SECRET_KEY=unsafe-build-time-secret-do-not-use-in-production \
+    python manage.py collectstatic --noinput
 
 RUN addgroup --gid 10001 --system django \
     && adduser --no-create-home --shell /bin/false \
