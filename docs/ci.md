@@ -124,7 +124,7 @@ Actions → select a workflow run → **Artifacts**.
 
 - Runs on: `ubuntu-22.04`
 - Build context: repository root
-- Dockerfile: `./docker/django/Dockerfile`
+- Dockerfile: `./docker/Dockerfile`
 
 Build toolchain:
 
@@ -206,7 +206,7 @@ safety check --file requirements.txt --json
 ### 4) Build Docker image locally
 
 ```bash
-docker build -f ./docker/django/Dockerfile -t iot-hub/django:local .
+docker build -f ./docker/Dockerfile -t iot-hub/django:local .
 ```
 
 ## Vulnerability Scanning and Triage

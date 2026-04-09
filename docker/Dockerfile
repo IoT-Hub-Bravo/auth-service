@@ -50,15 +50,15 @@ RUN addgroup --gid 10001 --system django && \
 COPY --chown=django:django ./src/ /app/
 
 # copy entrypoint
-COPY --chown=django:django ./docker/django/entrypoint.sh /entrypoint.sh
+COPY --chown=django:django ./docker/entrypoint.sh /entrypoint.sh
 RUN sed -i "s/\r$//g" /entrypoint.sh
 
 # copy prod start script
-COPY --chown=django:django ./docker/django/start-web.sh /start-web.sh
+COPY --chown=django:django ./docker/start-web.sh /start-web.sh
 RUN sed -i "s/\r$//g" /start-web.sh
 
 # copy dev start script
-COPY --chown=django:django ./docker/django/start-web-dev.sh /start-web-dev.sh
+COPY --chown=django:django ./docker/start-web-dev.sh /start-web-dev.sh
 RUN sed -i "s/\r$//g" /start-web-dev.sh
 
 # change scripts permissions
