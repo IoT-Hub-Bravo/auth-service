@@ -1,8 +1,24 @@
 name: ${COMPOSE_PROJECT_NAME:-auth-service}
 
 services:
-
-volumes:
+  auth-service:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    env_file: ../.env
+    volumes:
+      - ../secrets:/run/secrets:ro
+    ports:
+      - "${AUTH_SERVICE_PORT:-8001}:8001"
+    networks:
+      - iot-hub-nw
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/api/health/')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
 networks:
   iot-hub-nw:
